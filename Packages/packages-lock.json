@@ -1,5 +1,27 @@
 {
   "dependencies": {
+    "com.google.external-dependency-manager": {
+      "version": "file:E:/Project Unity/Firebase package/com.google.external-dependency-manager-1.2.183.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {}
+    },
+    "com.google.firebase.app": {
+      "version": "file:E:/Project Unity/Firebase package/com.google.firebase.app-12.4.1.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.external-dependency-manager": "1.2.183"
+      }
+    },
+    "com.google.firebase.crashlytics": {
+      "version": "file:E:/Project Unity/Firebase package/com.google.firebase.crashlytics-12.4.1.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.firebase.app": "12.4.1"
+      }
+    },
     "com.unity.burst": {
       "version": "1.8.18",
       "depth": 1,
