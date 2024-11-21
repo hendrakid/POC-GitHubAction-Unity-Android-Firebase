@@ -42,3 +42,16 @@ Assets → External Dependency Manager → Android Resolver → Force Resolve
 6. Raise your hands and thank the Almighty – you're done! 🎉
 
 </details>
+
+
+
+### Problem: Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,
+
+<details>
+**Symptoms**: Minimum SDK is too low
+
+**Solution**:  
+1. Project Settings > Player Minimum API Level:
+   Change into API Level 28
+
+</details>
