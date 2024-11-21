@@ -25,7 +25,7 @@ This guide provides instructions for integrating the Google Play Games Plugin in
 <summary><strong>Troubleshooting</strong></summary>
 
 ### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
-<Could not find `com.google.games:gpgs-plugin-support:0.11.01`>
+<details>
 **Symptoms**: During Android dependency resolution, Unity reports that it cannot locate the required files.
 
 **Solution**:  
@@ -45,4 +45,4 @@ Assets → External Dependency Manager → Android Resolver → Force Resolve
 
 6. Raise your hands and thank the Almighty – you're done! 🎉
 
-</Could not find `com.google.games:gpgs-plugin-support:0.11.01`>
+</details>
