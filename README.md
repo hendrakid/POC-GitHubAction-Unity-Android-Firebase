@@ -1,8 +1,4 @@
 
-Here's an example of a README.md file you can use for your Unity project:
-
-markdown
-Copy code
 # Unity Google Play Games Plugin Setup Guide
 
 ## Package
