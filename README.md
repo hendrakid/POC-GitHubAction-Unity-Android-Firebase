@@ -22,7 +22,8 @@ This guide provides instructions for integrating the Google Play Games Plugin in
 
 
 - ### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
-`<details>
+```
+<details>
 **Symptoms**: Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
 
 **Solution**:  
@@ -40,7 +41,8 @@ Apparently the issue was UPM registry
 8. Force resolve suceed instantly (good sign that it works)
 Build succeed
    
-</details>`
+</details>
+```
 
 
 - ### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
