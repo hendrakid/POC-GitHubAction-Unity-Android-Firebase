@@ -2,6 +2,7 @@ name: Builds - Windows
 
 on:
   workflow_dispatch:
+  push:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -42,7 +43,7 @@ jobs:
       # Change Directory to Repo
       ###########################
       - name: Change to Repository Directory
-        working-directory: C:\short-repo
+        run: cd C:\short-repo
 
       ###########################
       #         Cache           #
