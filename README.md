@@ -17,7 +17,7 @@ This guide provides instructions for integrating the Google Play Games Plugin in
    - Go to `Assets → Import Package → Custom Package`.
    - Select `GooglePlayGamesPlugin-0.11.01.unitypackage` and import all files.
 3. Remove ExternalDependencyManager folder <- this to prevent Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
-4. Import Firebase packages using Unity Package Manager [Google APIs for Unity archive]([https://awesomeopensource.com/project/elangosundar/awesome-README-templates](https://developers.google.com/unity/archive)
+4. Import Firebase packages using Unity Package Manager [Google APIs for Unity archive](https://developers.google.com/unity/archive)
  - External Dependency Manager (com.google.external-dependency-manager)
  - Firebase Core (com.google.firebase.app)
  - Firebase products used in your project. If you use Realtime Database or Cloud Storage, import Authentication (com.google.firebase.auth) first.
