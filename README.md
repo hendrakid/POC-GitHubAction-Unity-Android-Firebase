@@ -43,7 +43,7 @@ Build succeed
 </details>
 
 
-### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
+### - Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
 <details>
 **Symptoms**: During Android dependency resolution, Unity reports that it cannot locate the required files.
 
