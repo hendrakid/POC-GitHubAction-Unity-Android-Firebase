@@ -18,30 +18,39 @@ jobs:
         projectPath:
           - POC-GitHubAction-Unity-Android-Firebase-GooglePlay
         unityVersion:
-          # - 2021.3.32f1
-          # - 2022.3.13f1
-          # - 2023.2.2f1
           - 2022.3.51f1
         targetPlatform:
-          - Android # Build an Android apk.
-          # - StandaloneWindows64 # Build a Windows 64-bit standalone.
-          # - WSAPlayer # Build a UWP App
-          # - tvOS # Build an Apple TV XCode project
+          - Android # Build an Android APK.
 
     steps:
       ###########################
-      #         Checkout        #
+      #   Set Git Long Paths    #
       ###########################
-      - uses: actions/checkout@v4
-        with:
-          lfs: true
+      - name: Enable Git Long Paths
+        run: git config --global core.longpaths true
 
       ###########################
-      #          Cache          #
+      #       Clone Repo        #
+      ###########################
+      - name: Clone Repository to Short Path
+        run: |
+          mkdir C:\short-repo
+          git clone https://github.com/${{ github.repository }} C:\short-repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      ###########################
+      # Change Directory to Repo
+      ###########################
+      - name: Change to Repository Directory
+        working-directory: C:\short-repo
+
+      ###########################
+      #         Cache           #
       ###########################
       - uses: actions/cache@v4
         with:
-          path: ${{ matrix.projectPath }}/Library
+          path: C:\short-repo\${{ matrix.projectPath }}\Library
           key: Library-${{ matrix.projectPath }}-windows-${{ matrix.targetPlatform }}
           restore-keys: |
             Library-${{ matrix.projectPath }}-windows-
@@ -50,15 +59,15 @@ jobs:
       ###########################
       #  Set Scripting Backend  #
       ###########################
-      - name: Set Scripting Backend To il2cpp
+      - name: Set Scripting Backend to IL2CPP
         run: |
-          Move-Item -Path "./test-project/ProjectSettings/ProjectSettingsIl2cpp.asset" -Destination "./test-project/ProjectSettings/ProjectSettings.asset" -Force
+          Move-Item -Path "C:\short-repo\${{ matrix.projectPath }}\ProjectSettings\ProjectSettingsIl2cpp.asset" -Destination "C:\short-repo\${{ matrix.projectPath }}\ProjectSettings\ProjectSettings.asset" -Force
 
       ###########################
-      #          Build          #
+      #         Build           #
       ###########################
       - name: Build
-        uses: ./
+        uses: game-ci/unity-builder@v2
         id: build-1
         continue-on-error: true
         timeout-minutes: 30
@@ -67,21 +76,19 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          buildName: 'GameCI Test Build'
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: C:\short-repo\${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: 'GameCI Test Build'
           customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           allowDirtyBuild: true
-      # We use dirty build because we are replacing the default project settings file above
 
       - name: Sleep for Retry
         if: ${{ steps.build-1.outcome == 'failure' }}
-        run: |
-          Start-Sleep -s 120
+        run: Start-Sleep -s 120
 
       - name: Build Retry 1
-        uses: ./
+        uses: game-ci/unity-builder@v2
         id: build-2
         continue-on-error: true
         timeout-minutes: 30
@@ -91,21 +98,19 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          buildName: 'GameCI Test Build'
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: C:\short-repo\${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: 'GameCI Test Build'
           customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           allowDirtyBuild: true
-      # We use dirty build because we are replacing the default project settings file above
 
       - name: Sleep for Retry
         if: ${{ steps.build-1.outcome == 'failure' && steps.build-2.outcome == 'failure' }}
-        run: |
-          Start-Sleep -s 240
+        run: Start-Sleep -s 240
 
       - name: Build Retry 2
-        uses: ./
+        uses: game-ci/unity-builder@v2
         id: build-3
         timeout-minutes: 30
         if: ${{ steps.build-1.outcome == 'failure' && steps.build-2.outcome == 'failure' }}
@@ -114,18 +119,18 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          buildName: 'GameCI Test Build'
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: C:\short-repo\${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: 'GameCI Test Build'
           customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
           allowDirtyBuild: true
-      # We use dirty build because we are replacing the default project settings file above
 
       ###########################
-      #          Upload         #
+      #        Upload           #
       ###########################
-      - uses: actions/upload-artifact@v4
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: Build ${{ matrix.targetPlatform }} on Windows (${{ matrix.unityVersion }})
           path: build
