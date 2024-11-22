@@ -20,6 +20,29 @@ This guide provides instructions for integrating the Google Play Games Plugin in
 
 <summary><strong>Troubleshooting</strong></summary>
 
+
+### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
+<details>
+**Symptoms**: Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
+
+**Solution**:  
+Apparently the issue was UPM registry
+
+1. Move to Min API 24 and target Highest possible API
+2. I removed the UPM package
+3. Removed the ExternalDependencyManager folder
+4. Installed EDM4U 1.2.183 from unity package found here
+5. Assets -> Refresh
+   External Dependency Manager appeared but didn't showed the resolver
+6. Assets -> External Dependency Manager -> Version Handler -> Update
+   He found an obsolete file, I applied what he proposed.
+7. Android resolver appear in External Dependency Manager
+8. Force resolve suceed instantly (good sign that it works)
+Build succeed
+   
+</details>
+
+
 ### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
 <details>
 **Symptoms**: During Android dependency resolution, Unity reports that it cannot locate the required files.
