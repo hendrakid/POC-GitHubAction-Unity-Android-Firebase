@@ -11,7 +11,7 @@
 This guide provides instructions for integrating the Google Play Games Plugin into your Unity project. It also includes a troubleshooting section to resolve common issues encountered during setup.
 
 ## Installation
-1. Download the `GooglePlayGamesPlugin-0.11.01.unitypackage` file from the official GitHub repository or relevant source.
+1. Download the [GooglePlayGamesPlugin-0.11.01.unitypackage](https://github.com/playgameservices/play-games-plugin-for-unity/tree/master/current-build "GooglePlayGamesPlugin-0.11.01.unitypackage")` file from the official GitHub repository or relevant source.
 2. Import the package into your Unity project:
    - Open Unity.
    - Go to `Assets → Import Package → Custom Package`.
@@ -28,63 +28,52 @@ This guide provides instructions for integrating the Google Play Games Plugin in
 
 
 
-<summary><strong>Troubleshooting</strong></summary>
+## Troubleshooting
+
+- Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater
+
+	**Symptoms**: Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
+
+	**Solution**:  
+	Apparently the issue was UPM registry
+	-  Move to Min API 24 and target Highest possible API
+	-  I removed the UPM package
+	-  Removed the ExternalDependencyManager folder
+	-  Installed EDM4U 1.2.183 from unity package found here
+	-  Assets -> Refresh
+		External Dependency Manager appeared but didn't showed the resolver
+	-  Assets -> External Dependency Manager -> Version Handler -> Update 
+		found an obsolete file, I applied what he proposed.
+	-  Android resolver appear in External Dependency Manager
+	-  Force resolve suceed instantly (good sign that it works)
+	- Build succeed
 
 
-### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
-<details>
-**Symptoms**: Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
+- Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
 
-**Solution**:  
-Apparently the issue was UPM registry
+	**Symptoms**: During Android dependency resolution, Unity reports that it cannot locate the required files.
 
-1. Move to Min API 24 and target Highest possible API
-2. I removed the UPM package
-3. Removed the ExternalDependencyManager folder
-4. Installed EDM4U 1.2.183 from unity package found here
-5. Assets -> Refresh
-   External Dependency Manager appeared but didn't showed the resolver
-6. Assets -> External Dependency Manager -> Version Handler -> Update
-   He found an obsolete file, I applied what he proposed.
-7. Android resolver appear in External Dependency Manager
-8. Force resolve suceed instantly (good sign that it works)
-Build succeed
-   
-</details>
+	**Solution**:  
+	- Open the file: `Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml`
+	- Locate the following line: `<repository>Packages/com.google.play.games/Editor/m2repository</repository>`
+	- Replace it with:
+`<repository>Assets/GooglePlayGames/com.google.play.games/Editor/m2repository</repository>`
 
+	- Save and close the file.
 
-### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
-<details>
-**Symptoms**: During Android dependency resolution, Unity reports that it cannot locate the required files.
+	- In Unity, click:
+	 `Assets → External Dependency Manager → Android Resolver → Force Resolve`
 
-**Solution**:  
-1. Open the file:  
-   `Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml`
-
-2. Locate the following line:  
-   <repository>Packages/com.google.play.games/Editor/m2repository</repository>
-
-3. Replace it with:
-   <repository>Assets/GooglePlayGames/com.google.play.games/Editor/m2repository</repository>
-
-4. Save and close the file.
-
-5. In Unity, click:
-Assets → External Dependency Manager → Android Resolver → Force Resolve
-
-6. Raise your hands and thank the Almighty – you're done! 🎉
-
-</details>
+	- Raise your hands and thank the Almighty – you're done! 🎉
 
 
 
-### Problem: Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,
 
-<details>
-**Symptoms**: Minimum SDK is too low
+- Problem: `Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,`
 
-**Solution**:  
-1. Project Settings > Player Minimum API Level:
-   Change into API Level 28
+	**Symptoms**: Minimum SDK is too low
 
-</details>
+	**Solution**:  
+	- Project Settings > Player Minimum API Level:
+	   Change into API Level 28
+
