@@ -3,10 +3,9 @@
 
 ## Package
 - **Google Play Games Plugin**: `GooglePlayGamesPlugin-0.11.01.unitypackage`
-- **Google Play Games Plugin**: `com.google.external-dependency-manager-1.2.183.tgz`
-- **Google Play Games Plugin**: `com.google.firebase.app-12.4.1.tgz`
-- **Google Play Games Plugin**: `com.google.firebase.crashlytics-12.4.1.tgz`
-- **Google Play Games Plugin**: `GooglePlayGamesPlugin-0.11.01.unitypackage`
+- **External Dependency Manager**: `com.google.external-dependency-manager-1.2.183.tgz`
+- **Firebase Core**: `com.google.firebase.app-12.4.1.tgz`
+- **Firebase Crashlytic**: `com.google.firebase.crashlytics-12.4.1.tgz`
 
 ## Overview
 This guide provides instructions for integrating the Google Play Games Plugin into your Unity project. It also includes a troubleshooting section to resolve common issues encountered during setup.
@@ -27,10 +26,12 @@ This guide provides instructions for integrating the Google Play Games Plugin in
 
 
 
+
+
 <summary><strong>Troubleshooting</strong></summary>
 
 
-- ### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
+### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
 <details>
 **Symptoms**: Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
 
@@ -52,7 +53,7 @@ Build succeed
 </details>
 
 
-- ### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
+### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
 <details>
 **Symptoms**: During Android dependency resolution, Unity reports that it cannot locate the required files.
 
@@ -77,7 +78,7 @@ Assets → External Dependency Manager → Android Resolver → Force Resolve
 
 
 
-- ### Problem: Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,
+### Problem: Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,
 
 <details>
 **Symptoms**: Minimum SDK is too low
