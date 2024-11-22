@@ -1,7 +1,11 @@
 
-# Unity Google Play Games Plugin Setup Guide
+# Unity Google Play Games, Firabase Crashlytic Plugin Setup Guide
 
 ## Package
+- **Google Play Games Plugin**: `GooglePlayGamesPlugin-0.11.01.unitypackage`
+- **Google Play Games Plugin**: `com.google.external-dependency-manager-1.2.183.tgz`
+- **Google Play Games Plugin**: `com.google.firebase.app-12.4.1.tgz`
+- **Google Play Games Plugin**: `com.google.firebase.crashlytics-12.4.1.tgz`
 - **Google Play Games Plugin**: `GooglePlayGamesPlugin-0.11.01.unitypackage`
 
 ## Overview
@@ -13,6 +17,11 @@ This guide provides instructions for integrating the Google Play Games Plugin in
    - Open Unity.
    - Go to `Assets → Import Package → Custom Package`.
    - Select `GooglePlayGamesPlugin-0.11.01.unitypackage` and import all files.
+3. Remove ExternalDependencyManager folder <- this to prevent Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
+4. Import Firebase packages using Unity Package Manager [Google APIs for Unity archive]([https://awesomeopensource.com/project/elangosundar/awesome-README-templates](https://developers.google.com/unity/archive))
+ - External Dependency Manager (com.google.external-dependency-manager)
+ - Firebase Core (com.google.firebase.app)
+ - Firebase products used in your project. If you use Realtime Database or Cloud Storage, import Authentication (com.google.firebase.auth) first.
 
 3. Follow the initial setup wizard for the plugin to configure your project.
 
