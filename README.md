@@ -21,8 +21,8 @@ This guide provides instructions for integrating the Google Play Games Plugin in
 <summary><strong>Troubleshooting</strong></summary>
 
 
-### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
-<details>
+- ### Problem: NullReferenceException: Object reference not set to an instance of an object Google.JarResolver.Dependency.IsGreater,
+`<details>
 **Symptoms**: Redundant dependencies or sub-dependencies on both UPM and Custom Package which the EDM4U cannot resolve correctly.
 
 **Solution**:  
@@ -40,7 +40,7 @@ Apparently the issue was UPM registry
 8. Force resolve suceed instantly (good sign that it works)
 Build succeed
    
-</details>
+</details>`
 
 
 - ### Problem: Could not find `com.google.games:gpgs-plugin-support:0.11.01`
@@ -68,7 +68,7 @@ Assets → External Dependency Manager → Android Resolver → Force Resolve
 
 
 
-### Problem: Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,
+- ### Problem: Failed to transform play-services-measurement-api-22.1.2.aar (com.google.android.gms:play-services-measurement-api:22.1.2) to match attributes {artifactType=android-dex, asm-transformed-variant=NONE,
 
 <details>
 **Symptoms**: Minimum SDK is too low
