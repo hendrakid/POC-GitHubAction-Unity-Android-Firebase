@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "950063789032",
+    "project_id": "dev-golden-needle-cdn",
+    "storage_bucket": "dev-golden-needle-cdn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950063789032:android:b5259c72b7baa33beb6a5d",
+        "android_client_info": {
+          "package_name": "com.WhisperingStories.GoldenNeedlePage1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLlq8_Lky7Q9pRdRWZrG9wV1WbyIs5fds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
