@@ -59,8 +59,9 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           buildMethod: UnityBuilderAction.BuildScript.Build
+          androidExportType: 'androidAppBundle'
           # androidAppBundle: true
-          # androidKeystoreName: finoldigital.keystore
+          androidKeystoreName: whisper.keystore
           # androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           # androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
           # androidKeyaliasName: cgs
