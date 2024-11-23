@@ -62,10 +62,10 @@ jobs:
           androidExportType: 'androidAppBundle'
           # androidAppBundle: true
           androidKeystoreName: whisper.keystore
-          # androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          # androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
-          # androidKeyaliasName: cgs
-          # androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          androidKeyaliasName: cgs
+          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
           androidTargetSdkVersion: AndroidApiLevel34
       - name: Upload Build
         uses: actions/upload-artifact@v3
