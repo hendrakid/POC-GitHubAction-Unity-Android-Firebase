@@ -59,13 +59,13 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           buildMethod: UnityBuilderAction.BuildScript.Build
-          androidAppBundle: true
-          androidKeystoreName: finoldigital.keystore
-          androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
-          androidKeyaliasName: cgs
-          androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
-          androidTargetSdkVersion: AndroidApiLevel31
+          # androidAppBundle: true
+          # androidKeystoreName: finoldigital.keystore
+          # androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          # androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          # androidKeyaliasName: cgs
+          # androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
+          androidTargetSdkVersion: AndroidApiLevel34
       - name: Upload Build
         uses: actions/upload-artifact@v3
         if: github.event.action == 'published' || contains(github.event.inputs.workflow_mode, matrix.targetPlatform) || (contains(github.event.inputs.workflow_mode, 'Steam') && matrix.targetPlatform == 'StandaloneLinux64')
