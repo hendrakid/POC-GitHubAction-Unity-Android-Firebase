@@ -11,8 +11,6 @@ jobs:
       matrix:
         targetPlatform:
           - Android
-        projectPath:
-          - test-package
         unityVersion: ['2020.3.0f1'] # some version must be included for package testing
         testMode:
           - playmode
@@ -66,7 +64,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           packageMode: true
-          projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
