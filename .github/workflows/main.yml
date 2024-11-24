@@ -10,6 +10,9 @@ jobs:
      strategy:
        fail-fast: false
        matrix:
+         testMode:
+          - playmode
+          # - editmode
          targetPlatform:
            - Android
      outputs:
@@ -57,7 +60,6 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
          with:
-          projectPath: ${{ matrix.projectPath }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
