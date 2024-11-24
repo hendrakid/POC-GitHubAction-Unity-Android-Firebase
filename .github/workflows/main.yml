@@ -1,23 +1,21 @@
-name: Test Android
+name: Test project
 
 on: [push, pull_request]
 
 jobs:
- buildWithLinux:
-    name: Build for ${{ matrix.targetPlatform }} ${{ matrix.unityVersion }}
+  testAllModes:
+    name: Test in ${{ matrix.testMode }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
           - Android
-        unityVersion: ['2020.3.0f1'] # some version must be included for package testing
+        # projectPath:
+        #   - test-project
         testMode:
           - playmode
           - editmode
-          
-    outputs:
-      buildVersion: ${{ steps.buildStep.outputs.buildVersion }}
     steps:
       - name: Free Disk Space for Android
         if: matrix.targetPlatform == 'Android'
@@ -30,13 +28,15 @@ jobs:
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
           df -h
-
-          
       - uses: actions/checkout@v4
         with:
           lfs: true
-
-
+      - uses: actions/cache@v3
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
+          restore-keys: |
+            Library-
       - uses: game-ci/unity-test-runner@v4
         id: tests
         env:
@@ -44,33 +44,19 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          packageMode: true
-          unityVersion: ${{ matrix.unityVersion }}
+          projectPath: ${{ matrix.projectPath }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: ${{ matrix.testMode }} Test Results
           coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*'
-
-
-
-
-            
-      # - name: Build Unity Project
-      #   id: buildStep
-      #   uses: game-ci/unity-builder@v4
-      #   env:
-      #     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      #     UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-      #     UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      #   with:
-      #     targetPlatform: ${{ matrix.targetPlatform }}
-      #     buildMethod: UnityBuilderAction.BuildScript.Build
-      #     androidExportType: 'androidAppBundle'
-      #     # androidAppBundle: true
-      #     androidKeystoreName: whisper.keystore
-      #     androidKeystoreBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-      #     androidKeystorePass: ${{ secrets.ANDROID_KEYSTORE_PASS }}
-      #     androidKeyaliasName: ${{ secrets.ANDROID_KEYALIAS_NAME }}
-      #     androidKeyaliasPass: ${{ secrets.ANDROID_KEYALIAS_PASS }}
-      #     androidTargetSdkVersion: AndroidApiLevel34
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Test results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.artifactsPath }}
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Coverage results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.coveragePath }}
