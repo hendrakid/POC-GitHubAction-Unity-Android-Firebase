@@ -16,7 +16,7 @@ env:
 
 jobs:
   buildWithLinux:
-    name: Build for Android on version 2020.3.0f1
+    name: Build for Android 
     runs-on: ubuntu-latest
     # env:
     #   UCD_TOOL_PATH: ${{ format('{0}/tools/ucd-cli-linux', github.workspace) }}
@@ -48,7 +48,7 @@ jobs:
       - name: Build Unity Project
         uses: game-ci/unity-builder@v2
         with:
-          unityVersion: 2022.3.51f1
+          # unityVersion: 2022.3.51f1
           targetPlatform: Android
           androidAppBundle: true
           androidKeyStoreName: ${{ secrets.ANDROID_KEYSTORE_NAME }}
