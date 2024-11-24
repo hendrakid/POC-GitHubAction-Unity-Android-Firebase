@@ -3,8 +3,59 @@ name: Actions 😎
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
+
+ testAllModes:
+   name: Test in ${{ matrix.testMode }}
+   runs-on: ubuntu-latest
+   strategy:
+     fail-fast: false
+     matrix:
+       testMode:
+         # - playmode
+         - editmode
+       targetPlatform:
+         - Android # Build an Android .apk standalone app.
+   steps:
+     - uses: actions/checkout@v4
+       with:
+         lfs: true
+
+     - uses: actions/cache@v3
+       with:
+         path: Library
+         key: Library-${{ matrix.targetPlatform }}
+         restore-keys: Library-
+     - if: matrix.targetPlatform == 'Android'
+       uses: jlumbroso/free-disk-space@v1.3.1
+           
+     - uses: game-ci/unity-test-runner@v4
+       id: tests
+       env:
+         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+       with:
+         targetPlatform: ${{ matrix.targetPlatform }}
+         projectPath: ${{ matrix.projectPath }}
+         testMode: ${{ matrix.testMode }}
+         artifactsPath: ${{ matrix.testMode }}-artifacts
+         githubToken: ${{ secrets.GITHUB_TOKEN }}
+         checkName: ${{ matrix.testMode }} Test Results
+         coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*'
+     - uses: actions/upload-artifact@v3
+       if: always()
+       with:
+         name: Test results for ${{ matrix.testMode }}
+         path: ${{ steps.tests.outputs.artifactsPath }}
+     - uses: actions/upload-artifact@v3
+       if: always()
+       with:
+         name: Coverage results for ${{ matrix.testMode }}
+         path: ${{ steps.tests.outputs.coveragePath }}
+          
  buildWithLinux:
     name: Build for ${{ matrix.targetPlatform }}
+    needs: testAllModes  # buildForAllSupportedPlatforms depends on testAllModes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -69,22 +120,6 @@ jobs:
           androidTargetSdkVersion: AndroidApiLevel34
       - name: Upload Build
         uses: actions/upload-artifact@v3
-        if: github.event.action == 'published' || contains(github.event.inputs.workflow_mode, matrix.targetPlatform) || (contains(github.event.inputs.workflow_mode, 'Steam') && matrix.targetPlatform == 'StandaloneLinux64')
         with:
-          name: cgs-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-      - name: Zip Build
-        uses: montudor/action-zip@v1
-        if: github.event.action == 'published' && matrix.targetPlatform == 'StandaloneLinux64'
-        with:
-          args: zip -qq -r build/cgs-${{ matrix.targetPlatform }}.zip build/${{ matrix.targetPlatform }}
-      - name: Upload Zip to GitHub Release
-        uses: svenstaro/upload-release-action@v2
-        if: github.event.action == 'published' && matrix.targetPlatform == 'StandaloneLinux64'
-        with:
-          repo_token: ${{ secrets.CGS_PAT }}
-          asset_name: cgs-${{ matrix.targetPlatform }}.zip
-          file: build/cgs-${{ matrix.targetPlatform }}.zip
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: ${{ github.event.release.body }}
+          name: Build
+          path: build
