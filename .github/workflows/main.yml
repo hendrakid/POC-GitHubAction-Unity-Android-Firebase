@@ -9,6 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        unityVersion: ['2020.3.0f1'] # some version must be included for package testing
         targetPlatform:
           - Android
         # projectPath:
@@ -44,6 +45,8 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          packageMode: true
+          unityVersion: ${{ matrix.unityVersion }}
           projectPath: ${{ matrix.projectPath }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
