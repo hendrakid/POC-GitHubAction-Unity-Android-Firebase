@@ -22,6 +22,12 @@
         "com.google.firebase.app": "12.4.1"
       }
     },
+    "com.google.play.games": {
+      "version": "file:com.google.play.games",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.8.18",
       "depth": 1,
